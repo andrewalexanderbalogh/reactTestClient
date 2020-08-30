@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>reacttestclient</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <!-- React Dev Libraries -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+    <!-- React Production Libraries -->
+<!--    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>-->
+<!--    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>-->
+
+    <!-- Slow JSX transpiler for demo: -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href= "./css/index.css" >
+</head>
+
+<body>
+    <header>
+        <h2 id="message">Welcome to the <span class="highlight">reacttestclient</span> Client</h2>
+        <div>
+            <a class="btn" href="https://github.com/andrewalexanderbalogh/reactTestClient">Find the repository on GitHub</a>
+        </div>
+    </header>
+
+    <main>
+        <div id="like_button_container"></div>
+    </main>
+
+    <footer></footer>
+</body>
+
+<!-- Load React Linguistics based on the `react` Query parameter -->
+<script type="text/javascript" src="./js/reactLoader.js"></script>
+
+<!-- React with native JS -->
+<!--<script type="text/javascript" src="./js/index.js"></script>-->
+
+<!-- React with JSX -->
+<!--<script type="text/babel" src="./jsx/index.jsx"></script>-->
+</html>
