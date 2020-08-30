@@ -14,6 +14,11 @@
             script.src = './jsx/index.jsx';
             script.type = 'text/babel';
         }
+        else if (urlParams.has('react') && urlParams.get('react') === 'babel'){
+            console.log('loading Babel-JSX');
+            script.src = './dist/index.js';
+            script.type = 'text/javascript';
+        }
         else {
             // JSX will be the default linguistic
             console.log('loading JSX');

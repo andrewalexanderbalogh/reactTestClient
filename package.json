@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server src -a localhost -p 8079",
+    "babel": "babel src/jsx --out-dir src/dist --presets react-app/prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
