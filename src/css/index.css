@@ -6,6 +6,14 @@ h5 {
     color: darkgreen;
 }
 
-#departments {
+.lowlight {
+    color: darkred;
+}
+
+section, address {
     margin-top: 1rem;
+}
+
+label {
+    display: block;
 }

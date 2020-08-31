@@ -16,6 +16,8 @@
     <!-- Slow JSX transpiler for demo: -->
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
+    <!-- Client App Configs -->
+    <script src="./configs.js"></script>
     <link rel="stylesheet" type="text/css" href= "./css/index.css" >
 </head>
 
@@ -31,13 +33,22 @@
         <section id="departments"></section>
 
         <section id="employees"></section>
+
+        <section id="create-employee"></section>
     </main>
 
-    <footer></footer>
+    <footer>
+        <address>
+            <label>Contact information:</label>
+            <label>Toll-free: <a href="tel:+1-888-629-8620" target="_blank">1-888-629-8620</a></label>
+
+            <label><a href="mailto:info@mitechisys.com">info@mitechisys.com</a></label>
+        </address>
+    </footer>
 </body>
 
 <!-- Load React Linguistics based on the `react` Query parameter -->
-<script type="text/javascript" src="./js/reactLoader.js"></script>
+<script type="text/javascript" src="./js/reactLoader.js" defer></script>
 
 <!-- React with native JS -->
 <!--<script type="text/javascript" src="./js/index.js"></script>-->

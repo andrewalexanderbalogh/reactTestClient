@@ -26,7 +26,7 @@
             script.type = 'text/babel';
         }
 
-
+        script.defer = true;
         document.documentElement.appendChild(script);
     };
 
