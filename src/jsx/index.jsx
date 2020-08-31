@@ -1,37 +1,19 @@
-class LikeButton extends React.Component {
+class DepartmentsTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { liked: false };
     }
 
     render() {
-        if (this.state.liked) {
-            // return 'You liked this.';
+        const departments = this.props.departments.map(department => {
             return (
-                <p>
-                    You Much liked this.
-                </p>
+                <tr key={department.dept_no}>
+                    <td>{department.dept_no}</td>
+                    <td>{department.dept_name}</td>
+                </tr>
             );
-        }
+        });
 
 
-        return (
-            <button
-                onClick={() => this.setState({ liked: true })}
-            >
-                Much Like
-            </button>
-        );
-    }
-}
-
-class DeptsTable extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { depts: [] };
-    }
-
-    render() {
         return (
             <table>
                 <caption>
@@ -51,15 +33,7 @@ class DeptsTable extends React.Component {
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>One</td>
-                        <td>Two</td>
-                    </tr>
-
-                    <tr>
-                        <td>Three</td>
-                        <td>Four</td>
-                    </tr>
+                    {departments}
                 </tbody>
             </table>
         )
@@ -67,9 +41,12 @@ class DeptsTable extends React.Component {
 }
 
 
-class DeptsButton extends React.Component {
+class DepartmentsSection extends React.Component {
     constructor(props) {
         super(props);
+        this.state = { departments: [] };
+
+        this.fetchData = this.fetchData.bind(this);
     }
 
     fetchData(){
@@ -93,7 +70,9 @@ class DeptsButton extends React.Component {
                 }
             })
             .then(results => {
-                console.log(results);
+                _this.setState({
+                    departments: results
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -101,31 +80,33 @@ class DeptsButton extends React.Component {
     }
 
     render() {
+        let departmentContent;
+        if (this.state.departments.length){
+            departmentContent = <DepartmentsTable departments={this.state.departments}/>;
+        }
+        else {
+            departmentContent = <aside>No Department Data</aside>;
+        }
+
+
         return (
-            <button
-                onClick={this.fetchData}
-            >
-                Fetch Data
-            </button>
+            <div>
+                <button onClick={this.fetchData}>
+                    Fetch Department Data
+                </button>
+
+                {departmentContent}
+            </div>
         );
     }
 }
 
 
-/* Like Button Content */
+/* Departments Section Content */
 ReactDOM.render(
-    <LikeButton/>,
-    document.getElementById('like_button_container')
-);
-
-/* Fetch Button Content */
-ReactDOM.render(
-    <DeptsButton/>,
-    document.getElementById('fetch-depts')
-);
-
-/* Departments Table Content */
-ReactDOM.render(
-    <DeptsTable/>,
+    <DepartmentsSection/>,
     document.getElementById('departments')
 );
+
+
+/* Employee Section Content */
