@@ -50,29 +50,39 @@ class DepartmentsTable extends React.Component {
 class DepartmentsSection extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { departments: [] };
+        this.state = {
+            departments: [],
+            failure: false
+        };
 
         this.fetchData = this.fetchData.bind(this);
     }
 
     fetchData(){
         let _this = this;
-        const request = new Request(`${window.Configs.host}/departments`);
-        const reqInit = {
+        _this.setState({
+            failure: false
+        });
+
+        const request = new Request(
+            `${window.Configs.host}/departments`
+        );
+
+        const requestOptions = {
             method: 'GET',
             mode: 'cors',
             cache: 'no-cache',
-            credentials: 'same-origin',
+            credentials: 'omit',
         };
 
 
-        fetch(request, reqInit)
+        fetch(request, requestOptions)
             .then(response => {
                 if (response.status === 200){
                     return response.json();
                 }
                 else {
-                    throw new Error('Network response was not ok.');
+                    throw response.text();
                 }
             })
             .then(results => {
@@ -81,13 +91,27 @@ class DepartmentsSection extends React.Component {
                 });
             })
             .catch(error => {
-                console.log(error);
+                _this.setState({
+                    failure: true
+                });
+
+                if (error instanceof Promise) {
+                    error.then(errorMessage => {
+                        console.warn(errorMessage);
+                    });
+                }
+                else {
+                    console.warn(error);
+                }
             });
     }
 
     render() {
         let departmentContent;
-        if (this.state.departments.length){
+        if (this.state.failure){
+            departmentContent = <aside className="lowlight">Failed To Fetch Department Records</aside>;
+        }
+        else if (this.state.departments.length){
             departmentContent = <DepartmentsTable departments={this.state.departments}/>;
         }
         else {
@@ -174,11 +198,20 @@ class EmployeesSection extends React.Component {
         super(props);
         this.state = {
             employees: [],
-            hireDate: ''
+
+            gender: '',
+            hireDate: '',
+
+            failure: false
         };
 
         this.fetchData = this.fetchData.bind(this);
+        this.handleGenderChange = this.handleGenderChange.bind(this);
         this.handleHireDateChange = this.handleHireDateChange.bind(this);
+    }
+
+    handleGenderChange(event) {
+        this.setState({gender: event.target.value});
     }
 
     handleHireDateChange(event) {
@@ -187,22 +220,29 @@ class EmployeesSection extends React.Component {
 
     fetchData(){
         let _this = this;
-        const request = new Request(`${window.Configs.host}/employees?gender=M&hire_date=${this.state.hireDate}`);
-        const reqInit = {
+        _this.setState({
+            failure: false
+        });
+
+        const request = new Request(
+            `${window.Configs.host}/employees?gender=${this.state.gender}&hire_date=${this.state.hireDate}`
+        );
+
+        const requestOptions = {
             method: 'GET',
             mode: 'cors',
             cache: 'no-cache',
-            credentials: 'same-origin',
+            credentials: 'omit',
         };
 
 
-        fetch(request, reqInit)
+        fetch(request, requestOptions)
             .then(response => {
                 if (response.status === 200){
                     return response.json();
                 }
                 else {
-                    throw new Error('Network response was not ok.');
+                    throw response.text();
                 }
             })
             .then(results => {
@@ -211,13 +251,27 @@ class EmployeesSection extends React.Component {
                 });
             })
             .catch(error => {
-                console.log(error);
+                _this.setState({
+                    failure: true
+                });
+
+                if (error instanceof Promise) {
+                    error.then(errorMessage => {
+                        console.warn(errorMessage);
+                    });
+                }
+                else {
+                    console.warn(error);
+                }
             });
     }
 
     render() {
         let employeeContent;
-        if (this.state.employees.length){
+        if (this.state.failure){
+            employeeContent = <aside className="lowlight">Failed To Fetch Employee Records</aside>;
+        }
+        else if (this.state.employees.length){
             employeeContent = <EmployeesTable employees={this.state.employees}/>;
         }
         else {
@@ -230,6 +284,15 @@ class EmployeesSection extends React.Component {
                 <button onClick={this.fetchData}>
                     Fetch Employee Data
                 </button>
+
+                <label>
+                    Gender:
+                    <select value={this.state.gender} onChange={this.handleGenderChange}>
+                        <option value="" hidden disabled>Please select a valid option</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                </label>
 
                 <label>
                     Hire Date:
@@ -282,11 +345,14 @@ class CreateEmployeeSection extends React.Component {
         });
 
         const request = new Request(`${window.Configs.host}/employees`);
-        const reqInit = {
+        const requestOptions = {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             mode: 'cors',
             cache: 'no-cache',
-            credentials: 'same-origin',
+            credentials: 'omit',
             body: JSON.stringify({
                 emp_no: _this.state.empNo,
                 birth_date: _this.state.birthDate,
@@ -298,27 +364,36 @@ class CreateEmployeeSection extends React.Component {
         };
 
 
-        fetch(request, reqInit)
+        fetch(request, requestOptions)
             .then(response => {
                 if (response.status === 200){
-                    return response.json();
+                    return response.text();
                 }
                 else {
-                    throw new Error('Network response was not ok.');
+                    throw response.text();
                 }
             })
             .then(results => {
+                console.log(results);
                 _this.setState({
                     success: true,
                     failure: false
                 });
             })
             .catch(error => {
-                console.log(error);
                 _this.setState({
                     success: false,
                     failure: true
                 });
+
+                if (error instanceof Promise) {
+                    error.then(errorMessage => {
+                        console.warn(errorMessage);
+                    });
+                }
+                else {
+                    console.warn(error);
+                }
             });
     }
 
@@ -386,7 +461,7 @@ class CreateEmployeeSection extends React.Component {
 
 
                 <label>
-                    Hire Date:
+                    Hire Date After:
                     <input type="date" value={this.state.hireDate} onChange={this.handleHireDateChange} />
                 </label>
 
