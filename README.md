@@ -1,7 +1,15 @@
 # reactTestClient
 ### React Client FrontEnd for Testing
 
-Start serving the Client through;
+A React Client App setup to communicate with an API with Endpoints as noted from;  
+[expressTestServer](https://github.com/andrewalexanderbalogh/expressTestServer)
+
+### Setup
+
+First create a file, `/src/configs.js`  with values that follow 
+those given in the `/src/configs.js.example` file.
+
+Then start serving the Client through;
 ```bash
 npm run start
 ```
