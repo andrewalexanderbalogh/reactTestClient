@@ -82,8 +82,6 @@ class DepartmentsSection extends React.Component {
             departments: [],
             failure: false
         };
-
-        this.fetchData = this.fetchData.bind(this);
     }
 
     fetchData(){
